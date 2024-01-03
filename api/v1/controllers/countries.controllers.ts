@@ -1,9 +1,10 @@
 import HttpErrors from "http-errors";
 import { NextFunction, Request, Response } from "express";
-import { CountriesFunction } from "../functions/countries.funtion";
+import  CountriesFunction from "../functions/countries.funtion";
 import { crawlingData, generateOptions, makeSlug } from "../helpers/helpers";
 import CountriesModel from "../schemas/countries.schema";
 import { BASE_URL_CRAWLING_DATA } from "../helpers/constant";
+import { crawlingCountries } from "../services/countriesApi";
 
 const CountriesControllers = {
   create: async (req: Request, res: Response, next: NextFunction) => {
@@ -28,11 +29,12 @@ const CountriesControllers = {
     }
   },
   drawlingData: async (req: Request, res: Response, next: NextFunction) => {
-    const domain = BASE_URL_CRAWLING_DATA + "/v1/api/quoc-gia";
-    const url = new URL(domain);
+    // const domain = BASE_URL_CRAWLING_DATA + "/quoc-gia";
+    // const url = new URL(domain);
     try {
-      const options = generateOptions(url);
-      const dataCrawling = await crawlingData(options);
+      // const options = generateOptions(url);
+      // const dataCrawling = await crawlingData(options);
+      const dataCrawling = await crawlingCountries();
 
       const { items } = dataCrawling.data;
 

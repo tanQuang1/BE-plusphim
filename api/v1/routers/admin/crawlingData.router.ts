@@ -14,7 +14,7 @@ AdminCrawlingDataRouter.get(
   MovieControllers.drawingSingleMovie
 );
 AdminCrawlingDataRouter.get(
-  "/manyMovie/:numberPage",
+  "/manyMovie/:currentPage",
   MovieControllers.drawlingManyMovie
 );
 export default AdminCrawlingDataRouter;
