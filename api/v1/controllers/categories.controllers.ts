@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { crawlingData, generateOptions, makeSlug } from "../helpers/helpers";
 import CategoriesFunction from "../functions/categories.functions";
 import CategoriesModel from "../schemas/categories.schema";
+import { crawlingCategories } from "../services/categoriApi";
 
 const CategoriesControllers = {
   create: async (req: Request, res: Response, next: NextFunction) => {
@@ -33,13 +34,13 @@ const CategoriesControllers = {
     }
   },
   drawlingData: async (req: Request, res: Response, next: NextFunction) => {
-    const domain = BASE_URL_CRAWLING_DATA + "/v1/api/the-loai";
-    const url = new URL(domain);
+    // const domain = BASE_URL_CRAWLING_DATA + "/the-loai";
+    // const url = new URL(domain);
 
     try {
-      const options = generateOptions(url);
-      const dataCrawling = await crawlingData(options);
-
+      // const options = generateOptions(url);
+      // const dataCrawling = await crawlingData(options);
+      const dataCrawling = await crawlingCategories();
       const { items } = dataCrawling.data;
 
       for (const item of items) {
@@ -63,6 +64,7 @@ const CategoriesControllers = {
       next(new HttpErrors.BadRequest(error.message));
     }
   },
+
   getAll: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const list_categories = await CategoriesModel.find({}).select(

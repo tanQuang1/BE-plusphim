@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import CountriesModel from "../schemas/countries.schema";
 import { ICategoriesModel } from "../types/categories.type";
 
-export const CountriesFunction = {
+const CountriesFunction = {
   checkSlugDuplicated: async (slug: string) => {
     const countries = await CountriesModel.exists({
       slug,
@@ -22,3 +22,5 @@ export const CountriesFunction = {
     return array_id;
   },
 };
+
+export default CountriesFunction;

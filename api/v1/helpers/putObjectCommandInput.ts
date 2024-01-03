@@ -3,7 +3,7 @@ import { BUCKET_NAME } from "./constant";
 
 const putObjectCommentInput = (
   url: string,
-  imageBuffer: string
+  imageBuffer: Buffer
 ): PutObjectCommand => {
   const commandPoster = new PutObjectCommand({
     Bucket: BUCKET_NAME,

@@ -1,15 +1,14 @@
 import jimp from "jimp";
 import { DEFAULT_TYPE_IMAGE } from "./constant";
 import sharp from "sharp";
-import axios from "axios";
+// import axios from "axios";
 
 function resizeImage(
   path: string,
   width: number,
   height: number,
   type = DEFAULT_TYPE_IMAGE
-) {
-  console.log(path, width, height);
+): Promise<{ success: Boolean; data: Buffer }> {
   return new Promise((resolve, reject) => {
     jimp
       .read("https://img.ophim9.cc/uploads/movies/hac-kim-co-dien-thumb.jpg")
@@ -20,11 +19,12 @@ function resizeImage(
           .getBufferAsync(type);
       })
       .then((result) => {
-        resolve(result);
+        console.log(result);
+        resolve({ success: true, data: result });
       })
       .catch((error) => {
         console.error("Error processing image:", error);
-        reject(error);
+        reject({ success: false, data: error });
       });
   });
 }
