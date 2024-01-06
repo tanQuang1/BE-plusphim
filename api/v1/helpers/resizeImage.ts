@@ -11,7 +11,7 @@ function resizeImage(
 ): Promise<{ success: Boolean; data: Buffer }> {
   return new Promise((resolve, reject) => {
     jimp
-      .read("https://img.ophim9.cc/uploads/movies/hac-kim-co-dien-thumb.jpg")
+      .read(path)
       .then((image) => {
         return image
           .resize(width, height)
