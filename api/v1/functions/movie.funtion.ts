@@ -1,5 +1,9 @@
 import { S3Client } from "@aws-sdk/client-s3";
-import { BASE_URL_CRAWLING_DATA, BASE_URL_IMAGE } from "../helpers/constant";
+import {
+  BASE_URL_CLIENT,
+  BASE_URL_CRAWLING_DATA,
+  BASE_URL_IMAGE,
+} from "../helpers/constant";
 import {
   crawlingData,
   generateOptions,
@@ -111,6 +115,62 @@ const MovieFunctions = {
       dateModified,
       dateCreated,
     };
+  },
+  getDataMovieBySlug: async (slug: string) => {
+    const data = await MovieModel.aggregate([
+      {
+        $match: { slug },
+      },
+      {
+        $lookup: {
+          from: "countries",
+          localField: "countries_id",
+          foreignField: "_id",
+          as: "countries",
+        },
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categories_id",
+          foreignField: "_id",
+          as: "categories",
+        },
+      },
+      {
+        $project: {
+          countries_id: 0,
+          categories_id: 0,
+          _id: 0,
+        },
+      },
+    ]);
+
+    return data[0];
+  },
+  createSeoOnPageForMovie: (
+    seo_name: string,
+    slug: string,
+    director: string,
+    content: string,
+    thumb_url: string,
+    poster_url: string
+  ) => {
+    const seoOnPage = {
+      titleHead: seo_name,
+      seoSchema: {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        name: seo_name,
+        url: BASE_URL_CLIENT + "phim/" + slug,
+        image: thumb_url,
+        director,
+      },
+      descriptionHead: content,
+      og_image: [thumb_url, poster_url],
+      og_url: `phim/${slug}`,
+    };
+    return seoOnPage;
   },
 };
 
